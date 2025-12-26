@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Node: Launch Current File",
+            "name": "Node Launch Current File",
             "type": "node",
             "request": "launch",
             "program": "${file}",
@@ -52,16 +52,15 @@
         {
             "name": "Debug: Node Current File (and attach)",
             "configurations": [
-                "Node: Launch Current File",
-                "Node: Attach to Process"
+                "Node Launch Current File"
             ]
         },
         {
             "name": "Format + Launch App Server",
             "configurations": [
-                "Node: Run npm script 'format'",
                 "Node: Launch App Server"
-            ]
+            ],
+            "preLaunchTask": "npm: format"
         }
     ]
 }
