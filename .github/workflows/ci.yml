@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,4 +16,10 @@ jobs:
           node-version: '18'
       - run: npm ci
       - run: npx prettier --check .
+        shell: bash
+      - name: Start server and check health
+        run: |
+          node app/index.js &
+          sleep 1
+          curl -fsS http://localhost:3000/health
         shell: bash
