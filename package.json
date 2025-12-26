@@ -1,0 +1,13 @@
+{
+    "name": "patgroup-workspace",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "format": "prettier --write .",
+        "start": "node app/index.js",
+        "check": "node scripts/check.js"
+    },
+    "devDependencies": {
+        "prettier": "^2.8.8"
+    }
+}
