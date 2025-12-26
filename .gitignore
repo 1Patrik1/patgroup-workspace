@@ -9,3 +9,6 @@ yarn-error.log
 coverage/
 .idea/
 *.log
+
+# Temporary branch protection templates
+branch-protection*.json
