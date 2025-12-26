@@ -1,0 +1,67 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Node: Launch Current File",
+            "type": "node",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "name": "Node: Launch App Server",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/app/index.js",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Node: Attach to Process",
+            "type": "node",
+            "request": "attach",
+            "processId": "${command:PickProcess}",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Node: Run npm script 'format'",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "format",
+                "--silent"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug: Node Current File (and attach)",
+            "configurations": [
+                "Node: Launch Current File",
+                "Node: Attach to Process"
+            ]
+        },
+        {
+            "name": "Format + Launch App Server",
+            "configurations": [
+                "Node: Run npm script 'format'",
+                "Node: Launch App Server"
+            ]
+        }
+    ]
+}
