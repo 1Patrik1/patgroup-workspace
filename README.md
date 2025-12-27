@@ -4,7 +4,8 @@ Repository for PATGROUP workspace. Contains configuration and tooling (Prettier)
 
 ## Usage
 
-- Run `npm run format` to format files with Prettier.
+-   Run `npm run format` to format files with Prettier.
+
 # PATGROUP Workspace
 
 Krátký návod pro tým — obsahuje doporučení a základní příkazy.
