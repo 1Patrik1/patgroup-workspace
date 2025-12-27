@@ -46,6 +46,25 @@ node scripts/check.js  # checks /health (exits 0 on success, 2 on failure)
 node scripts/check-server.js  # checks / endpoint
 ```
 
+### Deployment
+
+**Render.com (Free Tier):**
+
+Project configured with [render.yaml](../render.yaml) for automatic deployment:
+
+```bash
+# 1. Push changes to GitHub
+git push origin master  # requires PR due to branch protection
+
+# 2. Connect repository at render.com
+# - Auto-detects render.yaml configuration
+# - Uses npm install + npm start
+# - PORT automatically set to 10000 in production
+# - Health check on /health endpoint
+```
+
+Production URL: `https://patgroup-server.onrender.com`
+
 ## Code Conventions
 
 ### HTTP Response Pattern
@@ -77,6 +96,7 @@ All Node scripts use: `process.env.PORT || 3000` for consistency
 -   **app/**: Application entry points
 -   **scripts/**: Utility scripts (health checks, validation)
 -   **.vscode/**: Shared team configuration (settings, launch configs, tasks)
+-   **render.yaml**: Render.com deployment configuration (auto-detected)
 
 ## VS Code Configuration
 
