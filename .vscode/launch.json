@@ -2,7 +2,55 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Node: Launch Current File",
+            "name": "(Windows) Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "enter program name, for example ${workspaceFolder}/a.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "console": "externalTerminal"
+        },
+        {
+            "name": "(Windows) Attach",
+            "type": "cppvsdbg",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run prettier",
+            "runtimeExecutable": "prettier",
+            "cwd": "${workspaceFolder}",
+            "args": []
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run prettier",
+            "program": "${workspaceFolder}/node_modules/.bin/prettier",
+            "cwd": "${workspaceFolder}",
+            "args": []
+        },
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Attach to Chrome",
+            // Chrome DevTools remote debugging protocol port (not the app HTTP PORT/URL)
+            "port": 9222,
+            "request": "attach",
+            "type": "chrome",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Node Launch Current File",
             "type": "node",
             "request": "launch",
             "program": "${file}",
@@ -42,7 +90,7 @@
         },
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"
@@ -52,16 +100,15 @@
         {
             "name": "Debug: Node Current File (and attach)",
             "configurations": [
-                "Node: Launch Current File",
-                "Node: Attach to Process"
+                "Node Launch Current File"
             ]
         },
         {
             "name": "Format + Launch App Server",
             "configurations": [
-                "Node: Run npm script 'format'",
                 "Node: Launch App Server"
-            ]
+            ],
+            "preLaunchTask": "npm: format"
         }
     ]
 }
