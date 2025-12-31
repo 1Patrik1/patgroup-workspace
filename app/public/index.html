@@ -1,538 +1,562 @@
 <!DOCTYPE html>
 <html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PATGROUP - Multifunkční Online Aplikace</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
 
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-bottom: 30px;
-            text-align: center;
-        }
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+        text-align: center;
+      }
 
-        h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
+      h1 {
+        color: #667eea;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
 
-        .subtitle {
-            color: #666;
-            font-size: 1.1em;
-        }
+      .subtitle {
+        color: #666;
+        font-size: 1.1em;
+      }
 
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
+      .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+      }
 
-        .tool-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        }
+      .tool-card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
 
-        .tool-card h2 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 10px;
-        }
+      .tool-card h2 {
+        color: #667eea;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 10px;
+      }
 
-        .calculator-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
+      .calculator-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 15px;
+      }
 
-        .calc-display {
-            grid-column: 1 / -1;
-            padding: 15px;
-            font-size: 1.5em;
-            text-align: right;
-            background: #f5f5f5;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 5px;
-            min-height: 50px;
-        }
+      .calc-display {
+        grid-column: 1 / -1;
+        padding: 15px;
+        font-size: 1.5em;
+        text-align: right;
+        background: #f5f5f5;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 5px;
+        min-height: 50px;
+      }
 
-        button {
-            padding: 15px;
-            font-size: 1em;
-            border: none;
-            border-radius: 8px;
-            background: #667eea;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+      button {
+        padding: 15px;
+        font-size: 1em;
+        border: none;
+        border-radius: 8px;
+        background: #667eea;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
 
-        button:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-        }
+      button:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+      }
 
-        button:active {
-            transform: translateY(0);
-        }
+      button:active {
+        transform: translateY(0);
+      }
 
-        .calc-btn {
-            background: #667eea;
-        }
+      .calc-btn {
+        background: #667eea;
+      }
 
-        .calc-btn.operator {
-            background: #764ba2;
-        }
+      .calc-btn.operator {
+        background: #764ba2;
+      }
 
-        .calc-btn.equals {
-            background: #48bb78;
-            grid-column: span 2;
-        }
+      .calc-btn.equals {
+        background: #48bb78;
+        grid-column: span 2;
+      }
 
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-        }
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1em;
+      }
 
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-            font-family: inherit;
-        }
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+        font-family: inherit;
+      }
 
-        .todo-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            margin: 5px 0;
-            background: #f5f5f5;
-            border-radius: 8px;
-            gap: 10px;
-        }
+      .todo-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin: 5px 0;
+        background: #f5f5f5;
+        border-radius: 8px;
+        gap: 10px;
+      }
 
-        .todo-item.completed {
-            text-decoration: line-through;
-            opacity: 0.6;
-        }
+      .todo-item.completed {
+        text-decoration: line-through;
+        opacity: 0.6;
+      }
 
-        .todo-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
+      .todo-item input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
 
-        .todo-item span {
-            flex: 1;
-        }
+      .todo-item span {
+        flex: 1;
+      }
 
-        .todo-item button {
-            padding: 5px 10px;
-            font-size: 0.9em;
-            background: #e53e3e;
-        }
+      .todo-item button {
+        padding: 5px 10px;
+        font-size: 0.9em;
+        background: #e53e3e;
+      }
 
-        .clock {
-            font-size: 2em;
-            text-align: center;
-            padding: 20px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
+      .clock {
+        font-size: 2em;
+        text-align: center;
+        padding: 20px;
+        background: #f5f5f5;
+        border-radius: 8px;
+        margin: 10px 0;
+      }
 
-        .date {
-            font-size: 1.2em;
-            color: #666;
-        }
+      .date {
+        font-size: 1.2em;
+        color: #666;
+      }
 
-        .converter-group {
-            margin: 15px 0;
-        }
+      .converter-group {
+        margin: 15px 0;
+      }
 
-        .converter-group label {
-            display: block;
-            margin: 5px 0;
-            color: #666;
-        }
+      .converter-group label {
+        display: block;
+        margin: 5px 0;
+        color: #666;
+      }
 
-        select {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-        }
+      select {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1em;
+      }
 
-        .note-item {
-            padding: 10px;
-            margin: 5px 0;
-            background: #fff9db;
-            border-left: 4px solid #f6e05e;
-            border-radius: 4px;
-        }
+      .note-item {
+        padding: 10px;
+        margin: 5px 0;
+        background: #fff9db;
+        border-left: 4px solid #f6e05e;
+        border-radius: 4px;
+      }
 
-        .note-item .note-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+      .note-item .note-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
 
-        .note-item .note-content {
-            color: #666;
-        }
+      .note-item .note-content {
+        color: #666;
+      }
 
-        .note-item button {
-            margin-top: 5px;
-            padding: 5px 10px;
-            font-size: 0.8em;
-            background: #e53e3e;
-        }
+      .note-item button {
+        margin-top: 5px;
+        padding: 5px 10px;
+        font-size: 0.8em;
+        background: #e53e3e;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <header>
-            <h1>🚀 PATGROUP</h1>
-            <p class="subtitle">Multifunkční Online Aplikace</p>
-        </header>
+      <header>
+        <h1>🚀 PATGROUP</h1>
+        <p class="subtitle">Multifunkční Online Aplikace</p>
+      </header>
 
-        <div class="tools-grid">
-            <!-- Calculator -->
-            <div class="tool-card">
-                <h2>🔢 Kalkulačka</h2>
-                <div class="calculator-grid">
-                    <div class="calc-display" id="calcDisplay">0</div>
-                    <button class="calc-btn" onclick="clearCalc()">C</button>
-                    <button class="calc-btn" onclick="appendToCalc('(')">(</button>
-                    <button class="calc-btn" onclick="appendToCalc(')')">)</button>
-                    <button class="calc-btn operator" onclick="appendToCalc('/')">÷</button>
-                    
-                    <button class="calc-btn" onclick="appendToCalc('7')">7</button>
-                    <button class="calc-btn" onclick="appendToCalc('8')">8</button>
-                    <button class="calc-btn" onclick="appendToCalc('9')">9</button>
-                    <button class="calc-btn operator" onclick="appendToCalc('*')">×</button>
-                    
-                    <button class="calc-btn" onclick="appendToCalc('4')">4</button>
-                    <button class="calc-btn" onclick="appendToCalc('5')">5</button>
-                    <button class="calc-btn" onclick="appendToCalc('6')">6</button>
-                    <button class="calc-btn operator" onclick="appendToCalc('-')">−</button>
-                    
-                    <button class="calc-btn" onclick="appendToCalc('1')">1</button>
-                    <button class="calc-btn" onclick="appendToCalc('2')">2</button>
-                    <button class="calc-btn" onclick="appendToCalc('3')">3</button>
-                    <button class="calc-btn operator" onclick="appendToCalc('+')">+</button>
-                    
-                    <button class="calc-btn" onclick="appendToCalc('0')">0</button>
-                    <button class="calc-btn" onclick="appendToCalc('.')">.</button>
-                    <button class="calc-btn equals" onclick="calculateResult()">=</button>
-                </div>
-            </div>
+      <div class="tools-grid">
+        <!-- Calculator -->
+        <div class="tool-card">
+          <h2>🔢 Kalkulačka</h2>
+          <div class="calculator-grid">
+            <div class="calc-display" id="calcDisplay">0</div>
+            <button class="calc-btn" onclick="clearCalc()">C</button>
+            <button class="calc-btn" onclick="appendToCalc('(')">(</button>
+            <button class="calc-btn" onclick="appendToCalc(')')">)</button>
+            <button class="calc-btn operator" onclick="appendToCalc('/')">
+              ÷
+            </button>
 
-            <!-- Clock and Date -->
-            <div class="tool-card">
-                <h2>🕐 Hodiny a Datum</h2>
-                <div class="clock" id="clock">00:00:00</div>
-                <div class="date" id="date">Loading...</div>
-            </div>
+            <button class="calc-btn" onclick="appendToCalc('7')">7</button>
+            <button class="calc-btn" onclick="appendToCalc('8')">8</button>
+            <button class="calc-btn" onclick="appendToCalc('9')">9</button>
+            <button class="calc-btn operator" onclick="appendToCalc('*')">
+              ×
+            </button>
 
-            <!-- To-Do List -->
-            <div class="tool-card">
-                <h2>✅ Úkolník</h2>
-                <input type="text" id="todoInput" placeholder="Nový úkol...">
-                <button onclick="addTodo()">Přidat úkol</button>
-                <div id="todoList" style="margin-top: 15px;"></div>
-            </div>
+            <button class="calc-btn" onclick="appendToCalc('4')">4</button>
+            <button class="calc-btn" onclick="appendToCalc('5')">5</button>
+            <button class="calc-btn" onclick="appendToCalc('6')">6</button>
+            <button class="calc-btn operator" onclick="appendToCalc('-')">
+              −
+            </button>
 
-            <!-- Unit Converter -->
-            <div class="tool-card">
-                <h2>🔄 Převodník jednotek</h2>
-                <div class="converter-group">
-                    <label>Typ převodu:</label>
-                    <select id="conversionType" onchange="updateConverter()">
-                        <option value="length">Délka</option>
-                        <option value="weight">Hmotnost</option>
-                        <option value="temperature">Teplota</option>
-                    </select>
-                </div>
-                <div class="converter-group">
-                    <label>Z:</label>
-                    <input type="number" id="fromValue" oninput="convert()" placeholder="0">
-                    <select id="fromUnit"></select>
-                </div>
-                <div class="converter-group">
-                    <label>Na:</label>
-                    <input type="number" id="toValue" readonly placeholder="0">
-                    <select id="toUnit" onchange="convert()"></select>
-                </div>
-            </div>
+            <button class="calc-btn" onclick="appendToCalc('1')">1</button>
+            <button class="calc-btn" onclick="appendToCalc('2')">2</button>
+            <button class="calc-btn" onclick="appendToCalc('3')">3</button>
+            <button class="calc-btn operator" onclick="appendToCalc('+')">
+              +
+            </button>
 
-            <!-- Notes -->
-            <div class="tool-card" style="grid-column: 1 / -1;">
-                <h2>📝 Poznámky</h2>
-                <input type="text" id="noteTitle" placeholder="Nadpis poznámky...">
-                <textarea id="noteContent" placeholder="Obsah poznámky..."></textarea>
-                <button onclick="addNote()">Uložit poznámku</button>
-                <div id="notesList" style="margin-top: 15px;"></div>
-            </div>
+            <button class="calc-btn" onclick="appendToCalc('0')">0</button>
+            <button class="calc-btn" onclick="appendToCalc('.')">.</button>
+            <button class="calc-btn equals" onclick="calculateResult()">
+              =
+            </button>
+          </div>
         </div>
+
+        <!-- Clock and Date -->
+        <div class="tool-card">
+          <h2>🕐 Hodiny a Datum</h2>
+          <div class="clock" id="clock">00:00:00</div>
+          <div class="date" id="date">Loading...</div>
+        </div>
+
+        <!-- To-Do List -->
+        <div class="tool-card">
+          <h2>✅ Úkolník</h2>
+          <input type="text" id="todoInput" placeholder="Nový úkol..." />
+          <button onclick="addTodo()">Přidat úkol</button>
+          <div id="todoList" style="margin-top: 15px"></div>
+        </div>
+
+        <!-- Unit Converter -->
+        <div class="tool-card">
+          <h2>🔄 Převodník jednotek</h2>
+          <div class="converter-group">
+            <label>Typ převodu:</label>
+            <select id="conversionType" onchange="updateConverter()">
+              <option value="length">Délka</option>
+              <option value="weight">Hmotnost</option>
+              <option value="temperature">Teplota</option>
+            </select>
+          </div>
+          <div class="converter-group">
+            <label>Z:</label>
+            <input
+              type="number"
+              id="fromValue"
+              oninput="convert()"
+              placeholder="0"
+            />
+            <select id="fromUnit"></select>
+          </div>
+          <div class="converter-group">
+            <label>Na:</label>
+            <input type="number" id="toValue" readonly placeholder="0" />
+            <select id="toUnit" onchange="convert()"></select>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="tool-card" style="grid-column: 1 / -1">
+          <h2>📝 Poznámky</h2>
+          <input type="text" id="noteTitle" placeholder="Nadpis poznámky..." />
+          <textarea id="noteContent" placeholder="Obsah poznámky..."></textarea>
+          <button onclick="addNote()">Uložit poznámku</button>
+          <div id="notesList" style="margin-top: 15px"></div>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Calculator
-        let calcDisplay = document.getElementById('calcDisplay');
-        let currentCalc = '0';
+      // Calculator
+      let calcDisplay = document.getElementById("calcDisplay");
+      let currentCalc = "0";
 
-        function appendToCalc(value) {
-            if (currentCalc === '0') {
-                currentCalc = value;
-            } else {
-                currentCalc += value;
-            }
-            calcDisplay.textContent = currentCalc;
+      function appendToCalc(value) {
+        if (currentCalc === "0") {
+          currentCalc = value;
+        } else {
+          currentCalc += value;
         }
+        calcDisplay.textContent = currentCalc;
+      }
 
-        function clearCalc() {
-            currentCalc = '0';
-            calcDisplay.textContent = currentCalc;
+      function clearCalc() {
+        currentCalc = "0";
+        calcDisplay.textContent = currentCalc;
+      }
+
+      function calculateResult() {
+        try {
+          // Safe evaluation: only allow numbers and basic operators
+          const sanitized = currentCalc.replace(/[^0-9+\-*/.()]/g, "");
+          if (sanitized !== currentCalc) {
+            throw new Error("Invalid characters");
+          }
+          // Use Function constructor with strict validation as safer alternative
+          const result = Function('"use strict"; return (' + sanitized + ")")();
+          currentCalc = result.toString();
+          calcDisplay.textContent = currentCalc;
+        } catch (e) {
+          calcDisplay.textContent = "Chyba";
+          currentCalc = "0";
         }
+      }
 
-        function calculateResult() {
-            try {
-                // Safe evaluation: only allow numbers and basic operators
-                const sanitized = currentCalc.replace(/[^0-9+\-*/.()]/g, '');
-                if (sanitized !== currentCalc) {
-                    throw new Error('Invalid characters');
-                }
-                // Use Function constructor with strict validation as safer alternative
-                const result = Function('"use strict"; return (' + sanitized + ')')();
-                currentCalc = result.toString();
-                calcDisplay.textContent = currentCalc;
-            } catch (e) {
-                calcDisplay.textContent = 'Chyba';
-                currentCalc = '0';
-            }
+      // Clock
+      function updateClock() {
+        const now = new Date();
+        const time = now.toLocaleTimeString("cs-CZ");
+        const date = now.toLocaleDateString("cs-CZ", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+        document.getElementById("clock").textContent = time;
+        document.getElementById("date").textContent = date;
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      // To-Do List
+      let todos = JSON.parse(localStorage.getItem("todos") || "[]");
+
+      function renderTodos() {
+        const list = document.getElementById("todoList");
+        list.innerHTML = "";
+        todos.forEach((todo, index) => {
+          const div = document.createElement("div");
+          div.className = "todo-item" + (todo.completed ? " completed" : "");
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = todo.completed;
+          checkbox.onchange = () => toggleTodo(index);
+
+          const span = document.createElement("span");
+          span.textContent = todo.text;
+
+          const button = document.createElement("button");
+          button.textContent = "Smazat";
+          button.onclick = () => deleteTodo(index);
+
+          div.appendChild(checkbox);
+          div.appendChild(span);
+          div.appendChild(button);
+          list.appendChild(div);
+        });
+      }
+
+      function addTodo() {
+        const input = document.getElementById("todoInput");
+        if (input.value.trim()) {
+          todos.push({ text: input.value, completed: false });
+          localStorage.setItem("todos", JSON.stringify(todos));
+          input.value = "";
+          renderTodos();
         }
+      }
 
-        // Clock
-        function updateClock() {
-            const now = new Date();
-            const time = now.toLocaleTimeString('cs-CZ');
-            const date = now.toLocaleDateString('cs-CZ', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-            document.getElementById('clock').textContent = time;
-            document.getElementById('date').textContent = date;
-        }
-        updateClock();
-        setInterval(updateClock, 1000);
-
-        // To-Do List
-        let todos = JSON.parse(localStorage.getItem('todos') || '[]');
-
-        function renderTodos() {
-            const list = document.getElementById('todoList');
-            list.innerHTML = '';
-            todos.forEach((todo, index) => {
-                const div = document.createElement('div');
-                div.className = 'todo-item' + (todo.completed ? ' completed' : '');
-                
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.checked = todo.completed;
-                checkbox.onchange = () => toggleTodo(index);
-                
-                const span = document.createElement('span');
-                span.textContent = todo.text;
-                
-                const button = document.createElement('button');
-                button.textContent = 'Smazat';
-                button.onclick = () => deleteTodo(index);
-                
-                div.appendChild(checkbox);
-                div.appendChild(span);
-                div.appendChild(button);
-                list.appendChild(div);
-            });
-        }
-
-        function addTodo() {
-            const input = document.getElementById('todoInput');
-            if (input.value.trim()) {
-                todos.push({ text: input.value, completed: false });
-                localStorage.setItem('todos', JSON.stringify(todos));
-                input.value = '';
-                renderTodos();
-            }
-        }
-
-        function toggleTodo(index) {
-            todos[index].completed = !todos[index].completed;
-            localStorage.setItem('todos', JSON.stringify(todos));
-            renderTodos();
-        }
-
-        function deleteTodo(index) {
-            todos.splice(index, 1);
-            localStorage.setItem('todos', JSON.stringify(todos));
-            renderTodos();
-        }
-
+      function toggleTodo(index) {
+        todos[index].completed = !todos[index].completed;
+        localStorage.setItem("todos", JSON.stringify(todos));
         renderTodos();
+      }
 
-        // Unit Converter
-        const conversions = {
-            length: {
-                units: ['metr', 'kilometr', 'centimetr', 'milimetr', 'míle', 'stopa', 'palec'],
-                toBase: [1, 1000, 0.01, 0.001, 1609.344, 0.3048, 0.0254]
-            },
-            weight: {
-                units: ['kilogram', 'gram', 'tuna', 'libra', 'unce'],
-                toBase: [1, 0.001, 1000, 0.453592, 0.0283495]
-            },
-            temperature: {
-                units: ['Celsius', 'Fahrenheit', 'Kelvin'],
-                toBase: null // Special handling
-            }
-        };
+      function deleteTodo(index) {
+        todos.splice(index, 1);
+        localStorage.setItem("todos", JSON.stringify(todos));
+        renderTodos();
+      }
 
-        function updateConverter() {
-            const type = document.getElementById('conversionType').value;
-            const fromUnit = document.getElementById('fromUnit');
-            const toUnit = document.getElementById('toUnit');
-            
-            fromUnit.innerHTML = '';
-            toUnit.innerHTML = '';
-            
-            conversions[type].units.forEach(unit => {
-                fromUnit.add(new Option(unit, unit));
-                toUnit.add(new Option(unit, unit));
-            });
-            
-            if (toUnit.options.length > 1) {
-                toUnit.selectedIndex = 1;
-            }
-            
-            convert();
+      renderTodos();
+
+      // Unit Converter
+      const conversions = {
+        length: {
+          units: [
+            "metr",
+            "kilometr",
+            "centimetr",
+            "milimetr",
+            "míle",
+            "stopa",
+            "palec",
+          ],
+          toBase: [1, 1000, 0.01, 0.001, 1609.344, 0.3048, 0.0254],
+        },
+        weight: {
+          units: ["kilogram", "gram", "tuna", "libra", "unce"],
+          toBase: [1, 0.001, 1000, 0.453592, 0.0283495],
+        },
+        temperature: {
+          units: ["Celsius", "Fahrenheit", "Kelvin"],
+          toBase: null, // Special handling
+        },
+      };
+
+      function updateConverter() {
+        const type = document.getElementById("conversionType").value;
+        const fromUnit = document.getElementById("fromUnit");
+        const toUnit = document.getElementById("toUnit");
+
+        fromUnit.innerHTML = "";
+        toUnit.innerHTML = "";
+
+        conversions[type].units.forEach((unit) => {
+          fromUnit.add(new Option(unit, unit));
+          toUnit.add(new Option(unit, unit));
+        });
+
+        if (toUnit.options.length > 1) {
+          toUnit.selectedIndex = 1;
         }
 
-        function convert() {
-            const type = document.getElementById('conversionType').value;
-            const fromValue = parseFloat(document.getElementById('fromValue').value) || 0;
-            const fromUnit = document.getElementById('fromUnit').value;
-            const toUnit = document.getElementById('toUnit').value;
-            
-            let result;
-            
-            if (type === 'temperature') {
-                result = convertTemperature(fromValue, fromUnit, toUnit);
-            } else {
-                const fromIndex = conversions[type].units.indexOf(fromUnit);
-                const toIndex = conversions[type].units.indexOf(toUnit);
-                const baseValue = fromValue * conversions[type].toBase[fromIndex];
-                result = baseValue / conversions[type].toBase[toIndex];
-            }
-            
-            document.getElementById('toValue').value = result.toFixed(4);
+        convert();
+      }
+
+      function convert() {
+        const type = document.getElementById("conversionType").value;
+        const fromValue =
+          parseFloat(document.getElementById("fromValue").value) || 0;
+        const fromUnit = document.getElementById("fromUnit").value;
+        const toUnit = document.getElementById("toUnit").value;
+
+        let result;
+
+        if (type === "temperature") {
+          result = convertTemperature(fromValue, fromUnit, toUnit);
+        } else {
+          const fromIndex = conversions[type].units.indexOf(fromUnit);
+          const toIndex = conversions[type].units.indexOf(toUnit);
+          const baseValue = fromValue * conversions[type].toBase[fromIndex];
+          result = baseValue / conversions[type].toBase[toIndex];
         }
 
-        function convertTemperature(value, from, to) {
-            let celsius;
-            if (from === 'Celsius') celsius = value;
-            else if (from === 'Fahrenheit') celsius = (value - 32) * 5/9;
-            else celsius = value - 273.15;
-            
-            if (to === 'Celsius') return celsius;
-            else if (to === 'Fahrenheit') return celsius * 9/5 + 32;
-            else return celsius + 273.15;
+        document.getElementById("toValue").value = result.toFixed(4);
+      }
+
+      function convertTemperature(value, from, to) {
+        let celsius;
+        if (from === "Celsius") celsius = value;
+        else if (from === "Fahrenheit") celsius = ((value - 32) * 5) / 9;
+        else celsius = value - 273.15;
+
+        if (to === "Celsius") return celsius;
+        else if (to === "Fahrenheit") return (celsius * 9) / 5 + 32;
+        else return celsius + 273.15;
+      }
+
+      updateConverter();
+
+      // Notes
+      let notes = JSON.parse(localStorage.getItem("notes") || "[]");
+
+      function renderNotes() {
+        const list = document.getElementById("notesList");
+        list.innerHTML = "";
+        notes.forEach((note, index) => {
+          const div = document.createElement("div");
+          div.className = "note-item";
+
+          const titleDiv = document.createElement("div");
+          titleDiv.className = "note-title";
+          titleDiv.textContent = note.title;
+
+          const contentDiv = document.createElement("div");
+          contentDiv.className = "note-content";
+          contentDiv.textContent = note.content;
+
+          const button = document.createElement("button");
+          button.textContent = "Smazat";
+          button.onclick = () => deleteNote(index);
+
+          div.appendChild(titleDiv);
+          div.appendChild(contentDiv);
+          div.appendChild(button);
+          list.appendChild(div);
+        });
+      }
+
+      function addNote() {
+        const title = document.getElementById("noteTitle").value;
+        const content = document.getElementById("noteContent").value;
+
+        if (title.trim() && content.trim()) {
+          notes.push({ title, content });
+          localStorage.setItem("notes", JSON.stringify(notes));
+          document.getElementById("noteTitle").value = "";
+          document.getElementById("noteContent").value = "";
+          renderNotes();
         }
+      }
 
-        updateConverter();
-
-        // Notes
-        let notes = JSON.parse(localStorage.getItem('notes') || '[]');
-
-        function renderNotes() {
-            const list = document.getElementById('notesList');
-            list.innerHTML = '';
-            notes.forEach((note, index) => {
-                const div = document.createElement('div');
-                div.className = 'note-item';
-                
-                const titleDiv = document.createElement('div');
-                titleDiv.className = 'note-title';
-                titleDiv.textContent = note.title;
-                
-                const contentDiv = document.createElement('div');
-                contentDiv.className = 'note-content';
-                contentDiv.textContent = note.content;
-                
-                const button = document.createElement('button');
-                button.textContent = 'Smazat';
-                button.onclick = () => deleteNote(index);
-                
-                div.appendChild(titleDiv);
-                div.appendChild(contentDiv);
-                div.appendChild(button);
-                list.appendChild(div);
-            });
-        }
-
-        function addNote() {
-            const title = document.getElementById('noteTitle').value;
-            const content = document.getElementById('noteContent').value;
-            
-            if (title.trim() && content.trim()) {
-                notes.push({ title, content });
-                localStorage.setItem('notes', JSON.stringify(notes));
-                document.getElementById('noteTitle').value = '';
-                document.getElementById('noteContent').value = '';
-                renderNotes();
-            }
-        }
-
-        function deleteNote(index) {
-            notes.splice(index, 1);
-            localStorage.setItem('notes', JSON.stringify(notes));
-            renderNotes();
-        }
-
+      function deleteNote(index) {
+        notes.splice(index, 1);
+        localStorage.setItem("notes", JSON.stringify(notes));
         renderNotes();
+      }
+
+      renderNotes();
     </script>
-</body>
+  </body>
 </html>
