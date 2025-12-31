@@ -31,13 +31,6 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // API endpoint for getting current time
-  if (req.url === '/api/time') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ time: new Date().toISOString() }));
-    return;
-  }
-
   // 404 for other routes
   res.writeHead(404, { 'Content-Type': 'text/plain' });
   res.end('Not Found');

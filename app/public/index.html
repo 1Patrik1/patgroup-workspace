@@ -331,7 +331,14 @@
 
         function calculateResult() {
             try {
-                currentCalc = eval(currentCalc).toString();
+                // Safe evaluation: only allow numbers and basic operators
+                const sanitized = currentCalc.replace(/[^0-9+\-*/.()]/g, '');
+                if (sanitized !== currentCalc) {
+                    throw new Error('Invalid characters');
+                }
+                // Use Function constructor with strict validation as safer alternative
+                const result = Function('"use strict"; return (' + sanitized + ')')();
+                currentCalc = result.toString();
                 calcDisplay.textContent = currentCalc;
             } catch (e) {
                 calcDisplay.textContent = 'Chyba';
@@ -360,14 +367,28 @@
 
         function renderTodos() {
             const list = document.getElementById('todoList');
-            list.innerHTML = todos.map((todo, index) => `
-                <div class="todo-item ${todo.completed ? 'completed' : ''}">
-                    <input type="checkbox" ${todo.completed ? 'checked' : ''} 
-                           onchange="toggleTodo(${index})">
-                    <span>${todo.text}</span>
-                    <button onclick="deleteTodo(${index})">Smazat</button>
-                </div>
-            `).join('');
+            list.innerHTML = '';
+            todos.forEach((todo, index) => {
+                const div = document.createElement('div');
+                div.className = 'todo-item' + (todo.completed ? ' completed' : '');
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = todo.completed;
+                checkbox.onchange = () => toggleTodo(index);
+                
+                const span = document.createElement('span');
+                span.textContent = todo.text;
+                
+                const button = document.createElement('button');
+                button.textContent = 'Smazat';
+                button.onclick = () => deleteTodo(index);
+                
+                div.appendChild(checkbox);
+                div.appendChild(span);
+                div.appendChild(button);
+                list.appendChild(div);
+            });
         }
 
         function addTodo() {
@@ -468,13 +489,28 @@
 
         function renderNotes() {
             const list = document.getElementById('notesList');
-            list.innerHTML = notes.map((note, index) => `
-                <div class="note-item">
-                    <div class="note-title">${note.title}</div>
-                    <div class="note-content">${note.content}</div>
-                    <button onclick="deleteNote(${index})">Smazat</button>
-                </div>
-            `).join('');
+            list.innerHTML = '';
+            notes.forEach((note, index) => {
+                const div = document.createElement('div');
+                div.className = 'note-item';
+                
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'note-title';
+                titleDiv.textContent = note.title;
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'note-content';
+                contentDiv.textContent = note.content;
+                
+                const button = document.createElement('button');
+                button.textContent = 'Smazat';
+                button.onclick = () => deleteNote(index);
+                
+                div.appendChild(titleDiv);
+                div.appendChild(contentDiv);
+                div.appendChild(button);
+                list.appendChild(div);
+            });
         }
 
         function addNote() {
