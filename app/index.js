@@ -1,35 +1,47 @@
-const http = require('http');
-const port = process.env.PORT || 3000;
-
-const server = http.createServer((req, res) => {
-  if (req.url === '/' || req.url === '/health') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('OK');
-  } else {
-    res.writeHead(404, { 'Content-Type': 'text/plain' });
-    res.end('Not Found');
-  }
-});
-
-server.listen(port, () => {
-  console.log(`Server listening on ${port}`);
-});
-const http = require('http');
+const http = require("http");
+const fs = require("fs");
+const path = require("path");
 
 const PORT = process.env.PORT || 3000;
 
+// Helper function to serve static files
+const serveFile = (filePath, contentType, res) => {
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            res.writeHead(500, { "Content-Type": "text/plain" });
+            res.end("Internal Server Error");
+        } else {
+            res.writeHead(200, { "Content-Type": contentType });
+            res.end(data);
+        }
+    });
+};
+
 const server = http.createServer((req, res) => {
-  if (req.url === '/') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('OK');
-  } else {
-    res.writeHead(404);
-    res.end('Not Found');
-  }
+    // Health check endpoint
+    if (req.url === "/health") {
+        res.writeHead(200, { "Content-Type": "text/plain" });
+        res.end("OK");
+        return;
+    }
+
+    // Main page
+    if (req.url === "/" || req.url === "/index.html") {
+        serveFile(
+            path.join(__dirname, "public", "index.html"),
+            "text/html",
+            res
+        );
+        return;
+    }
+
+    // 404 for other routes
+    res.writeHead(404, { "Content-Type": "text/plain" });
+    res.end("Not Found");
 });
 
 server.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+    console.log(`Server listening on port ${PORT}`);
 });
 
 // Export server for tests if required
