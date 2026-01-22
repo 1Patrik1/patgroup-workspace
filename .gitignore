@@ -12,3 +12,5 @@ coverage/
 
 # Temporary branch protection templates
 branch-protection*.json
+
+.fake
