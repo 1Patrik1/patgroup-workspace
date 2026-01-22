@@ -1,25 +1,25 @@
 name: CI
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm ci
-      - run: npx prettier --check .
-        shell: bash
-      - name: Start server and check health
-        run: |
-          node app/index.js &
-          sleep 1
-          curl -fsS http://localhost:3000/health
-        shell: bash
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "18"
+            - run: npm ci
+            - run: npx prettier --check .
+              shell: bash
+            - name: Start server and check health
+              run: |
+                  node app/index.js &
+                  sleep 1
+                  curl -fsS http://localhost:3000/health
+              shell: bash
