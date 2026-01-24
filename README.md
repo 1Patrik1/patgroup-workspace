@@ -4,7 +4,8 @@ Repository for PATGROUP workspace. Contains configuration and tooling (Prettier)
 
 ## Usage
 
-- Run `npm run format` to format files with Prettier.
+-   Run `npm run format` to format files with Prettier.
+
 # PATGROUP Workspace
 
 Krátký návod pro tým — obsahuje doporučení a základní příkazy.
@@ -47,3 +48,27 @@ Konfigurace editoru a doporučená nastavení jsou v `/.vscode/settings.json` a 
 ## Poznámky
 
 -   Pokud chcete, mohu spustit `npx prettier --write .` teď.
+
+## Nasazení (Deployment)
+
+Aplikace může být nasazena na různých platformách:
+
+### Render.com
+
+1. Připojte GitHub repozitář na [Render.com](https://render.com)
+2. Render automaticky detekuje `render.yaml` konfiguraci
+3. Aplikace se nasadí automaticky
+
+### Docker
+
+```bash
+# Vytvořit Docker image
+docker build -t patgroup-workspace .
+
+# Spustit container
+docker run -p 3000:3000 patgroup-workspace
+```
+
+### Railway / Heroku
+
+Tyto platformy automaticky detekují Node.js aplikaci a použijí `npm start` příkaz z `package.json`.
