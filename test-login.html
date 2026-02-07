@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Login</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      .status {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+      .success {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      .error {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔐 Test přihlášení - Stavba Manager</h1>
+
+    <div id="status"></div>
+
+    <h2>Rychlé testy:</h2>
+    <button onclick="testLogin('monter', 'monter123', 'monter')">
+      Test Montér
+    </button>
+    <button onclick="testLogin('technik', 'technik123', 'technik')">
+      Test Technik
+    </button>
+    <button onclick="testLogin('vedouci', 'vedouci123', 'stavbyvedouci')">
+      Test Vedoucí
+    </button>
+    <button onclick="testLogin('admin', 'admin123', 'administrator')">
+      Test Admin
+    </button>
+
+    <h2>Manuální test:</h2>
+    <div>
+      <input type="text" id="testUser" placeholder="Username" />
+      <input type="password" id="testPass" placeholder="Password" />
+      <select id="testRole">
+        <option value="monter">Montér</option>
+        <option value="technik">Technik</option>
+        <option value="stavbyvedouci">Stavbyvedoucí</option>
+        <option value="administrator">Administrátor</option>
+      </select>
+      <button onclick="testManual()">Test</button>
+    </div>
+
+    <button onclick="clearStorage()">Vymazat LocalStorage</button>
+    <button onclick="checkStorage()">Zkontrolovat LocalStorage</button>
+    <button onclick="openApp()">Otevřít aplikaci</button>
+
+    <h2>Log:</h2>
+    <pre
+      id="log"
+      style="
+        background: #f5f5f5;
+        padding: 10px;
+        max-height: 300px;
+        overflow: auto;
+      "
+    ></pre>
+
+    <script>
+      const users = {
+        monter: { password: "monter123", role: "monter", name: "Jan Novák" },
+        technik: {
+          password: "technik123",
+          role: "technik",
+          name: "Petr Svoboda",
+        },
+        vedouci: {
+          password: "vedouci123",
+          role: "stavbyvedouci",
+          name: "Martin Dvořák",
+        },
+        admin: { password: "admin123", role: "administrator", name: "Admin" },
+      };
+
+      function log(message, type = "info") {
+        const logDiv = document.getElementById("log");
+        const timestamp = new Date().toLocaleTimeString();
+        logDiv.innerHTML += `[${timestamp}] ${type.toUpperCase()}: ${message}\n`;
+        logDiv.scrollTop = logDiv.scrollHeight;
+      }
+
+      function showStatus(message, success) {
+        const statusDiv = document.getElementById("status");
+        statusDiv.className = `status ${success ? "success" : "error"}`;
+        statusDiv.textContent = message;
+      }
+
+      function testLogin(username, password, role) {
+        log(`Testing login: ${username} / ${role}`);
+
+        const user = users[username];
+        if (!user) {
+          showStatus("❌ Uživatel nenalezen", false);
+          log("User not found", "error");
+          return;
+        }
+
+        if (user.password !== password) {
+          showStatus("❌ Nesprávné heslo", false);
+          log("Wrong password", "error");
+          return;
+        }
+
+        if (user.role !== role) {
+          showStatus("❌ Nesprávná role", false);
+          log("Wrong role", "error");
+          return;
+        }
+
+        const userData = {
+          username: username,
+          name: user.name,
+          role: user.role,
+        };
+
+        localStorage.setItem("currentUser", JSON.stringify(userData));
+        showStatus(`✅ Přihlášení úspěšné: ${user.name} (${role})`, true);
+        log("Login successful: " + JSON.stringify(userData), "success");
+      }
+
+      function testManual() {
+        const username = document.getElementById("testUser").value;
+        const password = document.getElementById("testPass").value;
+        const role = document.getElementById("testRole").value;
+        testLogin(username, password, role);
+      }
+
+      function clearStorage() {
+        localStorage.clear();
+        showStatus("🗑️ LocalStorage vymazán", true);
+        log("LocalStorage cleared");
+      }
+
+      function checkStorage() {
+        const data = localStorage.getItem("currentUser");
+        if (data) {
+          showStatus("✅ LocalStorage obsahuje data", true);
+          log("LocalStorage data: " + data);
+        } else {
+          showStatus("⚠️ LocalStorage je prázdný", false);
+          log("LocalStorage is empty");
+        }
+      }
+
+      function openApp() {
+        window.open("http://localhost:3000/app/", "_blank");
+        log("Opening app in new tab");
+      }
+
+      // Initial check
+      checkStorage();
+    </script>
+  </body>
+</html>

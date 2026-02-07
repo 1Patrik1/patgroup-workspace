@@ -1,6 +1,8 @@
 node_modules/
-.vscode/
+.vscode/Git/
 .env
+.env.local
+.env.*.local
 dist/
 build/
 .DS_Store
@@ -9,6 +11,19 @@ yarn-error.log
 coverage/
 .idea/
 *.log
+*.swp
+*.swo
+
+# Data persistence
+data/store.json
+data/
 
 # Temporary branch protection templates
 branch-protection*.json
+
+# IDE & OS
+.sublime-project
+.sublime-workspace
+Thumbs.db
+package-lock.json
+yarn.lock

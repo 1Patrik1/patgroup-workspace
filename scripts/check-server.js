@@ -13,11 +13,15 @@ const req = http.request(options, (res) => {
     let data = "";
     res.on("data", (chunk) => (data += chunk));
     res.on("end", () => {
-        if (data.trim() === "OK") {
+        if (res.statusCode === 200 && data.trim() === "OK") {
             console.log("check-server: OK");
             process.exit(0);
         } else {
-            console.error("check-server: unexpected response:", data);
+            console.error(
+                "check-server: unexpected response:",
+                `status=${res.statusCode || ""}`,
+                data
+            );
             process.exit(2);
         }
     });
