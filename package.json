@@ -1,13 +1,35 @@
 {
     "name": "patgroup-workspace",
     "version": "1.0.0",
+    "description": "PATGROUP - stavba management system s web UI",
+    "main": "app/index.js",
     "private": true,
     "scripts": {
-        "format": "prettier --write .",
         "start": "node app/index.js",
-        "check": "node scripts/check.js"
+        "start:trace": "node --require ./tracing.js app/index.js",
+        "format": "prettier --write .",
+        "check": "node scripts/check.js",
+        "check-server": "node scripts/check-server.js",
+        "test": "node scripts/check.js && node scripts/check-server.js"
     },
     "devDependencies": {
         "prettier": "^2.8.8"
+    },
+    "keywords": [
+        "construction",
+        "management",
+        "attendance",
+        "reports"
+    ],
+    "author": "PATGROUP",
+    "license": "ISC",
+    "dependencies": {
+        "@opentelemetry/api": "^1.9.0",
+        "@opentelemetry/sdk-node": "^0.54.0",
+        "@opentelemetry/auto-instrumentations-node": "^0.50.0",
+        "@opentelemetry/exporter-trace-otlp-http": "^0.54.0",
+        "@opentelemetry/resources": "^1.26.0",
+        "@opentelemetry/semantic-conventions": "^1.27.0",
+        "@opentelemetry/sdk-trace-node": "^0.54.0"
     }
 }

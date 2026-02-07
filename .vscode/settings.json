@@ -1,0 +1,83 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    ],
+    "prettier.requireConfig": false,
+    "python.formatting.provider": "black",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "yaml.validate": true,
+    "gitlens.currentLine.enabled": true,
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "terminal.integrated.windowsUseConptyDll": true,
+    "terminal.integrated.allowMnemonics": true,
+    "terminal.integrated.cursorStyle": "line",
+    "git-blame.configs.statusBar.length": "long",
+    "CodeGPT.apiKey": "Google AI Studio",
+    "spellright.language": [
+        "cs"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext",
+        "javascript"
+    ],
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        ".",
+        "-p",
+        "test*.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "geminicodeassist.customCommands": {
+        "ADD-MERGE": "TRUE"
+    },
+    "github.copilot.chat.virtualTools.threshold": 128,
+    "chat.mcp.serverSampling": {
+        "PATGROUP/.vscode/mcp.json: io.github.github/github-mcp-server": {
+            "allowedModels": [
+                "copilot/claude-sonnet-4.5",
+                "copilot/auto",
+                "copilot/claude-haiku-4.5",
+                "copilot/claude-opus-4.5",
+                "copilot/claude-sonnet-4",
+                "copilot/gemini-2.5-pro",
+                "copilot/gemini-3-flash-preview",
+                "copilot/gemini-3-pro-preview",
+                "copilot/gpt-4.1",
+                "copilot/gpt-4o",
+                "copilot/gpt-5",
+                "copilot/gpt-5-mini",
+                "copilot/gpt-5-codex",
+                "copilot/gpt-5.1",
+                "copilot/gpt-5.1-codex",
+                "copilot/gpt-5.1-codex-max",
+                "copilot/gpt-5.1-codex-mini",
+                "copilot/gpt-5.2",
+                "copilot/grok-code-fast-1",
+                "copilot/oswe-vscode-prime"
+            ]
+        }
+    },
+    "azureFunctions.deploySubpath": "api",
+    "azureFunctions.postDeployTask": "npm install (functions)",
+    "azureFunctions.projectLanguage": "TypeScript",
+    "azureFunctions.projectRuntime": "~4",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.projectLanguageModel": 4,
+    "azureFunctions.preDeployTask": "npm prune (functions)",
+    "python-envs.defaultEnvManager": "ms-python.python:venv",
+    "python-envs.pythonProjects": []
+}

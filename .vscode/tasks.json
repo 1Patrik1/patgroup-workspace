@@ -1,0 +1,107 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Format: Prettier",
+            "type": "shell",
+            "command": "npx prettier --write .",
+            "problemMatcher": []
+        },
+        {
+            "label": "Start: Server",
+            "type": "shell",
+            "command": "npm start",
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^.*Server listening on port.*$",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^.*Starting.*$",
+                    "endsPattern": "^.*Server listening.*$"
+                }
+            },
+            "options": {
+                "env": {
+                    "PORT": "10000"
+                }
+            }
+        },
+        {
+            "type": "npm",
+            "script": "start",
+            "problemMatcher": [
+                "$python"
+            ],
+            "label": "npm: start",
+            "detail": "node app/index.js"
+        },
+        {
+            "type": "func",
+            "label": "func: host start",
+            "command": "host start",
+            "problemMatcher": "$func-node-watch",
+            "isBackground": true,
+            "dependsOn": "npm watch (functions)",
+            "options": {
+                "cwd": "${workspaceFolder}/api"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "npm build (functions)",
+            "command": "npm run build",
+            "dependsOn": "npm clean (functions)",
+            "problemMatcher": "$tsc",
+            "options": {
+                "cwd": "${workspaceFolder}/api"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "npm watch (functions)",
+            "command": "npm run watch",
+            "dependsOn": "npm clean (functions)",
+            "problemMatcher": "$tsc-watch",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "isBackground": true,
+            "options": {
+                "cwd": "${workspaceFolder}/api"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "npm install (functions)",
+            "command": "npm install",
+            "options": {
+                "cwd": "${workspaceFolder}/api"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "npm prune (functions)",
+            "command": "npm prune --production",
+            "dependsOn": "npm build (functions)",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}/api"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "npm clean (functions)",
+            "command": "npm run clean",
+            "dependsOn": "npm install (functions)",
+            "options": {
+                "cwd": "${workspaceFolder}/api"
+            }
+        }
+    ]
+}

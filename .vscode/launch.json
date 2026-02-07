@@ -2,7 +2,79 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Node: Launch Current File",
+            "name": "(gdb) Bash on Windows Attach",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "enter program name, for example ${workspaceFolder}/a.exe",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "debuggerPath": "/usr/bin/gdb",
+                "pipeProgram": "${env:windir}\\system32\\bash.exe",
+                "pipeArgs": ["-c"],
+                "pipeCwd": ""
+            },
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(Windows) Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "enter program name, for example ${workspaceFolder}/a.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "console": "externalTerminal"
+        },
+        {
+            "name": "(Windows) Attach",
+            "type": "cppvsdbg",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run prettier",
+            "runtimeExecutable": "prettier",
+            "cwd": "${workspaceFolder}",
+            "args": []
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run prettier",
+            "program": "${workspaceFolder}/node_modules/.bin/prettier",
+            "cwd": "${workspaceFolder}",
+            "args": []
+        },
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Attach to Chrome",
+            "port": 9222,
+            "request": "attach",
+            "type": "chrome",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Node Launch Current File",
             "type": "node",
             "request": "launch",
             "program": "${file}",
@@ -42,26 +114,33 @@
         },
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "Attach to Node Functions",
+            "type": "node",
+            "request": "attach",
+            "restart": true,
+            "port": 9229,
+            "preLaunchTask": "func: host start"
         }
     ],
     "compounds": [
         {
             "name": "Debug: Node Current File (and attach)",
             "configurations": [
-                "Node: Launch Current File",
-                "Node: Attach to Process"
+                "Node Launch Current File"
             ]
         },
         {
             "name": "Format + Launch App Server",
             "configurations": [
-                "Node: Run npm script 'format'",
                 "Node: Launch App Server"
-            ]
+            ],
+            "preLaunchTask": "npm: format"
         }
     ]
 }

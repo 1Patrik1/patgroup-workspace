@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stavba Manager - Správa staveb a docházky</title>
+    <meta
+      name="description"
+      content="Aplikace pro správu staveb, docházky a fotodokumentace."
+    />
+    <link rel="icon" href="/app/favicon.ico" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="/app/css/style.css" />
+  </head>
+  <body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+      <div class="login-container">
+        <div class="login-header">
+          <h1>🏗️ Stavba Manager</h1>
+          <p>Přihlášení do systému</p>
+        </div>
+        <form id="loginForm" class="login-form" onsubmit="return false;">
+          <div class="form-group">
+            <label for="username">Uživatelské jméno</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              autocomplete="username"
+              placeholder="Zadejte jméno"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Heslo</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              autocomplete="current-password"
+              placeholder="Zadejte heslo"
+            />
+          </div>
+          <div class="form-group">
+            <label for="userRole">Role</label>
+            <select id="userRole" name="userRole" required>
+              <option value="">Vyberte roli</option>
+              <option value="monter">👷 Montér</option>
+              <option value="technik">🔧 Technik</option>
+              <option value="stavbyvedouci">👨‍💼 Stavbyvedoucí</option>
+              <option value="administrator">🛡️ Administrátor</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            Přihlásit se
+          </button>
+          <div id="loginError" class="login-error" style="display: none"></div>
+        </form>
+        <div class="login-footer">
+          <p>Demo přístupy:</p>
+          <ul>
+            <li><strong>Montér:</strong> monter / monter123</li>
+            <li><strong>Technik:</strong> technik / technik123</li>
+            <li><strong>Stavbyvedoucí:</strong> vedouci / vedouci123</li>
+            <li><strong>Admin:</strong> admin / admin123</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-container" id="appContainer" style="display: none">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <h1>Stavba Manager</h1>
+        </div>
+        <div class="header-center">
+          <div class="user-info">
+            <span class="user-role-badge" id="userRoleBadge"></span>
+            <span class="user-name" id="userName"></span>
+          </div>
+        </div>
+        <div class="header-status">
+          <div id="connectionStatus" class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text">Online</span>
+          </div>
+          <div id="locationStatus" class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text">GPS</span>
+          </div>
+          <button
+            type="button"
+            id="logoutBtn"
+            class="btn-logout"
+            title="Odhlásit se"
+          >
+            🚪 Odhlásit
+          </button>
+        </div>
+      </header>
+
+      <!-- Navigation -->
+      <nav class="nav-bar">
+        <button type="button" class="nav-btn active" data-section="dashboard">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Dashboard</span>
+        </button>
+        <button type="button" class="nav-btn" data-section="projects">
+          <span class="nav-icon">🏗️</span>
+          <span class="nav-label">Stavby</span>
+        </button>
+        <button type="button" class="nav-btn" data-section="attendance">
+          <span class="nav-icon">📍</span>
+          <span class="nav-label">Docházka</span>
+        </button>
+        <button type="button" class="nav-btn" data-section="photos">
+          <span class="nav-icon">📷</span>
+          <span class="nav-label">Fotky</span>
+        </button>
+        <button type="button" class="nav-btn" data-section="reports">
+          <span class="nav-icon">📋</span>
+          <span class="nav-label">Reporty</span>
+        </button>
+        <button type="button" class="nav-btn" data-section="protocols">
+          <span class="nav-icon">📄</span>
+          <span class="nav-label">Protokoly</span>
+        </button>
+        <button type="button" class="nav-btn" data-section="time">
+          <span class="nav-icon">⏱️</span>
+          <span class="nav-label">Čas</span>
+        </button>
+        <button type="button" class="nav-btn" data-section="settings">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-label">Nastavení</span>
+        </button>
+      </nav>
+
+      <!-- Main content -->
+      <main class="main-content">
+        <!-- Dashboard -->
+        <section id="dashboard" class="content-section active">
+          <h2>Dashboard</h2>
+          <div class="dashboard-grid">
+            <div class="dashboard-card">
+              <h3>Aktivní projekt</h3>
+              <p id="activeProject" class="dashboard-value">Nevybrán</p>
+            </div>
+            <div class="dashboard-card">
+              <h3>Stav docházky</h3>
+              <p id="currentStatus" class="dashboard-value">Nepřihlášen</p>
+            </div>
+            <div class="dashboard-card">
+              <h3>Fotky dnes</h3>
+              <p id="todayPhotos" class="dashboard-value">0</p>
+            </div>
+            <div class="dashboard-card">
+              <h3>Odpracované hodiny</h3>
+              <p id="todayHours" class="dashboard-value">0:00</p>
+            </div>
+          </div>
+          <div class="quick-actions">
+            <button type="button" id="quickCheckin" class="btn btn-primary">
+              Rychlý check-in
+            </button>
+          </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects" class="content-section">
+          <h2>Stavby</h2>
+          <div class="filter-bar">
+            <select
+              id="statusFilter"
+              title="Filtr podle stavu stavby"
+              aria-label="Filtr podle stavu stavby"
+            >
+              <option value="all">Všechny</option>
+              <option value="aktivní">Aktivní</option>
+              <option value="plánovaný">Plánované</option>
+              <option value="ukončený">Ukončené</option>
+            </select>
+          </div>
+          <div id="projectsList" class="projects-grid"></div>
+        </section>
+
+        <!-- Attendance -->
+        <section id="attendance" class="content-section">
+          <h2>Docházka</h2>
+          <div class="attendance-container">
+            <div class="attendance-status">
+              <h3>Stav: <span id="attendanceStatus">Nepřihlášen</span></h3>
+              <p>Čas: <span id="attendanceTime">--:--</span></p>
+            </div>
+            <div class="attendance-controls">
+              <button type="button" id="checkinBtn" class="btn btn-success">
+                Check-in
+              </button>
+              <button
+                type="button"
+                id="checkoutBtn"
+                class="btn btn-danger hidden"
+              >
+                Check-out
+              </button>
+            </div>
+            <div class="attendance-settings">
+              <label
+                >GPS tolerance (m):
+                <input id="gpsTolerance" type="number" value="100"
+              /></label>
+            </div>
+            <div id="attendanceMap" class="map-container"></div>
+          </div>
+        </section>
+
+        <!-- Photos -->
+        <section id="photos" class="content-section">
+          <h2>Fotky</h2>
+          <div class="photos-controls">
+            <button type="button" id="takePhotoBtn" class="btn btn-primary">
+              Pořídit fotku
+            </button>
+          </div>
+
+          <div id="cameraContainer" class="camera-container hidden">
+            <video id="camera" autoplay class="hidden"></video>
+            <canvas id="photoCanvas" class="hidden"></canvas>
+            <div class="camera-controls">
+              <button type="button" id="captureBtn" class="btn btn-success">
+                Fotografovat
+              </button>
+              <button
+                type="button"
+                id="cancelCameraBtn"
+                class="btn btn-secondary"
+              >
+                Zrušit
+              </button>
+            </div>
+          </div>
+
+          <div id="photoForm" class="photo-form hidden">
+            <div class="form-group">
+              <label class="form-label" for="photoDescription"
+                >Popis fotky</label
+              >
+              <textarea
+                id="photoDescription"
+                class="form-control"
+                rows="3"
+              ></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="button" id="savePhotoBtn" class="btn btn-success">
+                Uložit
+              </button>
+              <button
+                type="button"
+                id="retakePhotoBtn"
+                class="btn btn-secondary"
+              >
+                Znovu fotografovat
+              </button>
+            </div>
+          </div>
+
+          <div id="photosGrid" class="photos-grid"></div>
+
+          <div id="photoModal" class="modal hidden">
+            <div class="modal-content">
+              <button type="button" id="closePhotoModal" class="modal-close">
+                &times;
+              </button>
+              <img id="photoPreview" src="" alt="Preview" />
+              <p id="photoPreviewDescription"></p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Reports -->
+        <section id="reports" class="content-section">
+          <h2>Reporty</h2>
+          <div class="reports-controls">
+            <button type="button" id="newReportBtn" class="btn btn-primary">
+              Nový report
+            </button>
+          </div>
+
+          <div id="reportForm" class="report-form hidden">
+            <div class="form-group">
+              <label class="form-label" for="reportType">Typ reportu</label>
+              <select
+                id="reportType"
+                class="form-control"
+                title="Vyberte typ reportu"
+              >
+                <option value="">-- Vyberte --</option>
+              </select>
+            </div>
+            <div id="reportFields"></div>
+            <div class="form-actions">
+              <button type="button" id="saveReportBtn" class="btn btn-success">
+                Uložit
+              </button>
+              <button
+                type="button"
+                id="cancelReportBtn"
+                class="btn btn-secondary"
+              >
+                Zrušit
+              </button>
+            </div>
+          </div>
+
+          <div id="reportsList" class="reports-list"></div>
+        </section>
+
+        <!-- Protocols -->
+        <section id="protocols" class="content-section">
+          <h2>Protokoly</h2>
+          <div class="protocols-controls">
+            <button type="button" id="newProtocolBtn" class="btn btn-primary">
+              Nový protokol
+            </button>
+          </div>
+
+          <div id="protocolForm" class="protocol-form hidden">
+            <div class="form-group">
+              <label class="form-label" for="protocolType">Typ protokolu</label>
+              <select
+                id="protocolType"
+                class="form-control"
+                title="Vyberte typ protokolu"
+              >
+                <option value="">-- Vyberte --</option>
+              </select>
+            </div>
+            <div id="protocolSections"></div>
+            <div class="form-group">
+              <label class="form-label" for="signatureCanvas"
+                >Digitální podpis</label
+              >
+              <canvas
+                id="signatureCanvas"
+                width="400"
+                height="200"
+                class="signature-canvas"
+              ></canvas>
+              <button
+                type="button"
+                id="clearSignatureBtn"
+                class="btn btn-secondary btn-sm"
+              >
+                Vymazat podpis
+              </button>
+            </div>
+            <div class="form-actions">
+              <button
+                type="button"
+                id="saveProtocolBtn"
+                class="btn btn-success"
+              >
+                Uložit
+              </button>
+              <button
+                type="button"
+                id="cancelProtocolBtn"
+                class="btn btn-secondary"
+              >
+                Zrušit
+              </button>
+            </div>
+          </div>
+
+          <div id="protocolsList" class="protocols-list"></div>
+        </section>
+
+        <!-- Time Tracking -->
+        <section id="time" class="content-section">
+          <h2>Čas</h2>
+          <div class="time-summary">
+            <div class="time-card">
+              <h3>Dnes</h3>
+              <p id="todayTime" class="time-value">0:00</p>
+            </div>
+            <div class="time-card">
+              <h3>Tento týden</h3>
+              <p id="weekTime" class="time-value">0:00</p>
+            </div>
+            <div class="time-card">
+              <h3>Tento měsíc</h3>
+              <p id="monthTime" class="time-value">0:00</p>
+            </div>
+          </div>
+          <div id="timeEntries" class="time-entries"></div>
+        </section>
+
+        <!-- Settings -->
+        <section id="settings" class="content-section">
+          <h2>Nastavení</h2>
+          <div class="settings-section">
+            <h3>Data Management</h3>
+            <button type="button" id="exportDataBtn" class="btn btn-primary">
+              Exportovat data
+            </button>
+            <button type="button" id="importDataBtn" class="btn btn-primary">
+              Importovat data
+            </button>
+            <input
+              id="importFileInput"
+              type="file"
+              accept=".json"
+              class="hidden"
+              title="Importovat data z JSON souboru"
+            />
+            <button type="button" id="clearDataBtn" class="btn btn-danger">
+              Vymazat všechna data
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="/app/js/app.js"></script>
+  </body>
+</html>
