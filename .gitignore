@@ -12,3 +12,6 @@ coverage/
 
 # Temporary branch protection templates
 branch-protection*.json
+
+.fake
+.ipynb_checkpoints/
