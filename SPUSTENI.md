@@ -6,7 +6,7 @@
 
 ```powershell
 # Varianta A: V novém okně (doporučeno)
-Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd c:\Users\patra\Desktop\PATGROUP; node app/index.js'
+Start-Process powershell -ArgumentList '-NoExit', '-Command', "cd '$PWD'; node app/index.js"
 
 # Varianta B: Přímo v terminálu (blokuje terminál)
 node app/index.js
